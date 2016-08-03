@@ -1,6 +1,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
-// var URL = require('url-parse');
+
+var URL = require('url-parse');
 
 var pageToVisit = "http://www.0daydown.com/category/tutorials/other";
 var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
@@ -14,16 +15,30 @@ request(pageToVisit, function(error, response, body) {
         console.log("Error: " + error);
     }
     // Check status code (200 is HTTP OK)
-    console.log("Status code: " + response.statusCode);
+    // console.log("Status code: " + response.statusCode);
     if(response.statusCode === 200) {
         // Parse the document body
         var $ = cheerio.load(body);
+        var data = {};
+        var _list = [];
         $('.excerpt header a').each(function(i, v){
-            console.log("[资源]:  " + $(v).text());
-
-            record(data)
+            var _url = $(v).attr("href"),
+                _name = _url.split(/\/|\./).slice(-3,-1).join("");
+                _list.push({
+                    "method": "POST",
+                    "path": "/1.1/classes/ScrapeResource",
+                    _name : {
+                        "name" : $(v).text(),
+                        "url" : _url
+                    }
+            })
         });
-
+        data = {
+            "request" : _list
+        }
+        console.log("data : ", data);
+        // record(data)
+        // getAll();
     }
 });
 
@@ -31,9 +46,23 @@ function record(data){
     request({
         headers: Lcloud,
         uri: Store_Lcloud,
-        body: data,
-        method: "POST"
+        json: true,
+        body: data
     },function(err,res,body){
-       console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
+        console.log("****************************************")
+        console.log("error : ", err)
+        console.log("res : ", res)
+       // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
+    });
+}
+
+function getAll(){
+    request({
+        headers: Lcloud,
+        uri: Store_Lcloud,
+        method: "GET"
+    },function(err,res,body){
+        console.log("getAll Status code: " + res.statusCode);
+        // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
     });
 }
