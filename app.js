@@ -15,7 +15,7 @@ request(pageToVisit, function(error, response, body) {
         console.log("Error: " + error);
     }
     // Check status code (200 is HTTP OK)
-    // console.log("Status code: " + response.statusCode);
+    console.log("Status code: " + response.statusCode);
     if(response.statusCode === 200) {
         // Parse the document body
         var $ = cheerio.load(body);
@@ -24,19 +24,12 @@ request(pageToVisit, function(error, response, body) {
         $('.excerpt header a').each(function(i, v){
             var _url = $(v).attr("href"),
                 _name = _url.split(/\/|\./).slice(-3,-1).join("");
-                _list.push({
-                    "method": "POST",
-                    "path": "/1.1/classes/ScrapeResource",
-                    _name : {
-                        "name" : $(v).text(),
-                        "url" : _url
-                    }
-            })
+            data[_name] = {
+                "name" : $(v).text(),
+                "url" : _url
+            }
         });
-        data = {
-            "request" : _list
-        }
-        console.log("data : ", data);
+        console.log(data)
         // record(data)
         // getAll();
     }
@@ -47,11 +40,11 @@ function record(data){
         headers: Lcloud,
         uri: Store_Lcloud,
         json: true,
-        body: data
+        body: data,
+        method: "POST"
     },function(err,res,body){
-        console.log("****************************************")
-        console.log("error : ", err)
-        console.log("res : ", res)
+        // console.log(err)
+        // console.log(res)
        // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
     });
 }
