@@ -16,11 +16,13 @@ var QueryString = {
     limit : 50,
     order : "-updatedAt"
 };
-
+var _B_Exist_List = [],
+    _A_Update_List = [],
+    _Update_list = [];
 getAll();
 
 
-/*request(pageToVisit, function(error, response, body) {
+request(pageToVisit, function(error, response, body) {
     if(error) {
         console.log("Error: " + error);
     }
@@ -44,12 +46,15 @@ getAll();
                 }
             });
         });
-        // console.log("data : ", _list);
+        // console.log("A data : ", _list);
+        _A_Update_List = _list;
+        _Update_list = diffArray(_A_Update_List, _B_Exist_List);
+
         record({
-            "requests" : _list
+            "requests" : _Update_list
         });
     }
-})*/;
+});
 
 function record(data){
     request.post({
@@ -58,6 +63,8 @@ function record(data){
         body: data,
         json: true
     },function(err,res,body){
+        // console.log("Update_ : ",JSON.parse(res.body).results);
+
         // console.log(err,body);
         // console.log(res.statusCode.toString())
         // console.log(res)
@@ -73,9 +80,24 @@ function getAll(){
         method: "GET",
         qs: QueryString
     },function(err,res,body){
-        console.log(JSON.parse(res.body).results);
+        _B_Exist_List = JSON.parse(res.body).results;
+        // console.log("B_ : ",JSON.parse(res.body).results);
         // console.log(JSON.parse(body).result);
         // console.log("getAll Status code: " + res.statusCode);
         // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
     });
 }
+
+/*
+* 查找A中有，B中没有的
+*@param a {Object}
+* @param b {Object}
+* */
+function diffArray(a, b){
+    return a.filter(function(current){
+                return b.filter(function(current_b){
+                        return current.body.url == current_b.url
+                    }).length == 0
+            });
+}
+
