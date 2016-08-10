@@ -1,63 +1,48 @@
-var request = require('request');
-var cheerio = require('cheerio');
-var cloud = require('./data/leancloud')
-var URL = require('url-parse');
+var path = require('path');
+var express = require('express');
+var config = require("config");
 
-var TargetURL = "http://www.0daydown.com/category/tutorials/other";
+var app = express();
 
-var _B_Exist_List = [],
-    _A_Update_List = [],
-    _Update_list = [];
-cloud.getAll();
+// 配置 express
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// request the target url
-request(TargetURL, function(error, response, body) {
-    if(error) {
-        console.log("Error: " + error);
-    }
-    // Check status code (200 is HTTP OK)
-    console.log("Status code: " + response.statusCode);
-    if(response.statusCode === 200) {
-        // Parse the document body
-        var $ = cheerio.load(body);
-        var data = {};
-        var _list = [];
-        // console.log("body : ", body);
-        $('.excerpt header h2 a').each(function(i, v){
-            var _url = $(v).attr("href"),
-                _name = $(v).text();
-            _list.push({
-                "method": "POST",
-                "path": "/1.1/classes/ScrapeResource",
-                "body": {
-                    "name": _name,
-                    "url" : _url
-                }
-            });
-        });
-        // console.log("A data : ", _list);
-        _A_Update_List = _list;
-        _Update_list = diffArray(_A_Update_List, _B_Exist_List);
 
-        cloud.record({
-            "requests" : _Update_list
-        });
-    }
+// 网站首页
+app.get('/', function(req, res, next){
+    // articleListByClassId 的第一个参数是文章分类的 ID
+    // 第二个参数是返回结果的开始位置
+    // 第三个参数是返回结果的数量
+    read.articleListByClassId(0, 0, 20, function (err, list) {
+        if (err) return next(err);
+
+        // 渲染模板
+        res.locals.articleList = list;
+        res.render('index');
+    });
 });
 
 
-
+app.listen(config.port);
+console.log('服务器已启动');
 
 /*
-* 查找A中有，B中没有的
-*@param a {Object}
-* @param b {Object}
-* */
-function diffArray(a, b){
-    return a.filter(function(current){
-                return b.filter(function(current_b){
-                        return current.body.url == current_b.url
-                    }).length == 0
-            });
-}
-
+    // 定时执行更新任务
+    var job = new cronJob(config.autoUpdate, function () {
+        console.log('开始执行定时更新任务');
+        var update = spawn(process.execPath, [path.resolve(__dirname, 'update/all.js')]);
+        update.stdout.pipe(process.stdout);
+        update.stderr.pipe(process.stderr);
+        update.on('close', function (code) {
+            console.log('更新任务结束，代码=%d', code);
+        });
+    });
+    job.start();
+    
+    
+    process.on('uncaughtException', function (err) {
+        console.error('uncaughtException: %s', err.stack);
+    })
+*/
