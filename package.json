@@ -5,6 +5,9 @@
   "main": "crawler.js",
   "author": "aloo",
   "license": "MIT",
+  "scripts": {
+      "start" : "nodemon app.js --verbose"
+  },
   "dependencies": {
     "cheerio": "^0.19.0",
     "url-parse": "^1.0.5",
