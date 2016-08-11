@@ -15,7 +15,6 @@ app.get('/', function(req, res, next){
     // 第二个参数是返回结果的开始位置
     // 33
     console.log("list 1 ************** : ", LIST);
-    console.log("list 2 ************** : ", cloud.getAll(console.log));
     res.render('index');
 });
 
