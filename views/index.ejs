@@ -3,7 +3,7 @@
 <ul class="list-group">
     <% List.forEach(function (item) { %>
     <li class="list-group-item">
-        <span class="badge"><%= item.createdAt %></span>
+        <span class="badge"><%= moment(item.createdAt).format('YYYY / MM / DD') %></span>
         <a href="<%= item.url %>"><%= item.name %></a>
     </li>
     <% }) %>

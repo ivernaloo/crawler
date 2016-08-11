@@ -25,6 +25,7 @@ app.get('/', function(req, res, next){
     // 渲染模板
     console.info("list : ", LIST);
     res.locals.List = LIST;
+    res.locals.moment = require('moment');
     res.render('index');
 });
 
