@@ -21,7 +21,6 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res, next){
     // articleListByClassId 的第一个参数是文章分类的 ID
     // 第二个参数是返回结果的开始位置
-    // 33
     // 渲染模板
     console.info("list : ", LIST);
     res.locals.List = LIST;
