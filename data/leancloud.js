@@ -9,7 +9,6 @@ var Lcloud = {
 };
 
 var QueryString = {
-    limit : 50,
     order : "-updatedAt"
 };
 
