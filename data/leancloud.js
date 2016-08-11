@@ -38,9 +38,9 @@ exports.getAll = function(fn){
         },function(err,res,body){
             if (res.statusCode === 200){
                 console.log("数据获取正确");
-                resolve(JSON.parse(res.body).results);
+                return resolve(JSON.parse(res.body).results);
             } else {
-                reject();
+                reject("Error: Some troubles on getAll");
             }
         })
     });
