@@ -1,14 +1,14 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var cloud = require('../data/leancloud')
+var cloud = require('../data/leancloud');
 var URL = require('url-parse');
 
 var TargetURL = "http://www.0daydown.com/category/tutorials/other";
 
-var _B_Exist_List = [],
+var _B_Exist_List = cloud.getAll(),
     _A_Update_List = [],
     _Update_list = [];
-cloud.getAll();
+
 
 // request the target url
 request(TargetURL, function(error, response, body) {

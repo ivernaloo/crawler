@@ -1,6 +1,4 @@
 var request = require('request');
-
-
 var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/Post';
 var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
 var Store_Lcloud_Base = 'https://api.leancloud.cn/1.1/';
@@ -23,29 +21,25 @@ exports.record = function (data){
         body: data,
         json: true
     },function(err,res,body){
-        // console.log("Update_ : ",JSON.parse(res.body).results);
-
-        // console.log(err,body);
-        // console.log(res.statusCode.toString())
-        // console.log(res)
-        // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
+        if (res.statusCode === 200) {
+            console.log("记录数据成功")
+        }
     });
 };
 
-exports.getAll = function(){
-    console.log(".....");
+exports.getAll = function(fn){
+    console.log("启动获取数据");
     request({
         headers: Lcloud,
         url: Store_Lcloud_ScrapeResource,
         method: "GET",
         qs: QueryString
     },function(err,res,body){
-        _B_Exist_List = JSON.parse(res.body).results;
-        // console.log("B_ : ",JSON.parse(res.body).results);
-        // console.log(JSON.parse(body).result);
-        // console.log("getAll Status code: " + res.statusCode);
-        // console.log("Err : ",err,"\nRes : ",res,"\nBody : ", body)
+        if (res.statusCode === 200){
+            console.log("数据获取正确");
+            return JSON.parse(res.body).results;
+        }
     });
-}
 
+}
 
