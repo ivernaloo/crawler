@@ -13,7 +13,7 @@ var QueryString = {
 };
 
 // record the data
-exports.record = function (data){
+function record(data){
     request.post({
         headers: Lcloud,
         url: Store_Lcloud_Batch,
@@ -26,7 +26,7 @@ exports.record = function (data){
     });
 };
 
-exports.getAll = function(fn){
+function getAll(fn){
     console.log("启动获取数据");
     return new Promise(function(resolve, reject){
         request({
@@ -42,6 +42,32 @@ exports.getAll = function(fn){
                 reject("Error: Some troubles on getAll");
             }
         })
+    });
+};
+
+exports.batchDelete = function (data){
+    request.delete({
+        headers: Lcloud,
+        url: Store_Lcloud_Batch,
+        body: data,
+        json: true
+    },function(err,res,body){
+        if (res.statusCode === 200) {
+            console.log("批量删除数据成功")
+        }
+    });
+};
+
+exports.deduplicateStorage = function (data){
+    request.delete({
+        headers: Lcloud,
+        url: Store_Lcloud_Batch,
+        body: data,
+        json: true
+    },function(err,res,body){
+        if (res.statusCode === 200) {
+            console.log("批量删除数据成功")
+        }
     });
 };
 
@@ -1349,12 +1375,25 @@ function deduplicate(){
         }
     ];
     var Queue = {};
+    var LIST_ID = [];
     DATA.forEach(function(v,i){
-        console.log(i,v)
-    })
+        if ( !Queue[v.name] ) {
+            console.log(" v ", v.name);
+            Queue[v.name] = 1;
+        } else {
+            ++ Queue[v.name];
+            LIST_ID.push(v.objectId);
+        }
+    });
+    console.log("Queue : ", Queue);
+    console.log("LIST_ID : ", LIST_ID);
     // console.log("data : ", DATA);
 
+    return {
+        queue: Queue,
+        id: LIST_ID
+    }
 }
 
-
-deduplicate();
+exports.record = record;
+exports.getAll = getAll;
