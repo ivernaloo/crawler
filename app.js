@@ -12,7 +12,9 @@ cloud.getAll().then(
     function(error){
         console.log("Error : getAll " + error);
     }
-)
+);
+
+
 // 配置 express
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
