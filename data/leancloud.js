@@ -1,4 +1,5 @@
-require('babel-core/register');
+require("babel-polyfill");
+
 var request = require('request');
 var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/Post';
 var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
@@ -74,6 +75,7 @@ function deduplicateStorage(){
         console.log("REQUEST : ", REQUEST);
 
     return ;
+    /*
     request.post({
         headers: Lcloud,
         url: Store_Lcloud_Batch,
@@ -86,7 +88,9 @@ function deduplicateStorage(){
             console.log("批量去重成功")
         }
     });
+    */
 };
+
 async function deduplicate(){
     var DATA;
     var Queue = {};
@@ -106,7 +110,8 @@ async function deduplicate(){
         "queue" : Queue,
         "id": LIST_ID
     };
-});
+};
+
 console.log(" abc : ", deduplicate());
 exports.record = record;
 exports.getAll = getAll;
