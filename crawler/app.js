@@ -5,9 +5,18 @@ var URL = require('url-parse');
 
 var TargetURL = "http://www.0daydown.com/category/tutorials/other";
 
-var _B_Exist_List = cloud.getAll(),
+var _B_Exist_List = [],
     _A_Update_List = [],
     _Update_list = [];
+
+cloud.getAll().then(
+    function(res){
+        _B_Exist_List = res
+    },
+    function(error){
+        console.log("Error : getAll " + error);
+    }
+);
 
 
 // request the target url
@@ -44,8 +53,6 @@ request(TargetURL, function(error, response, body) {
         });
     }
 });
-
-
 
 
 /*

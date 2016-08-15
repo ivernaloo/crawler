@@ -80,7 +80,7 @@ function deduplicateStorage(){
     */
 };
 
-async function deduplicate(){
+/*async function deduplicate(){
     var DATA;
     var Queue = {};
     var LIST_ID = [];
@@ -118,7 +118,7 @@ async function deduplicate(){
             console.log("批量去重成功")
         }
     });
-};
+}*/;
 
 exports.record = record;
 exports.getAll = getAll;
