@@ -29,7 +29,6 @@ function record(data){
 };
 
 function getAll(fn){
-    console.log("启动获取数据");
     return new Promise(function(resolve, reject){
         request({
             headers: Lcloud,
