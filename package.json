@@ -8,7 +8,7 @@
   "scripts": {
     "start": "nodemon crawler/app.js --verbose",
     "web": "nodemon app.js --verbose",
-    "deduplicate": "nodemon build/leancloud.js --verbose",
+    "deduplicate": "nodemon build/leancloud.js --exec babel-node --presets es2015,stage-3",
     "build": "babel -w data -d build",
     "debug": "concurrently --kill-others 'npm run build' 'npm run deduplicate'"
   },
@@ -25,6 +25,13 @@
     "url-parse": "^1.0.5"
   },
   "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.12.0",
     "concurrently": "^2.2.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-async-to-generator"
+    ]
   }
 }

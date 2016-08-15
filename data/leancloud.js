@@ -1,5 +1,3 @@
-require("babel-polyfill");
-
 var request = require('request');
 var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/Post';
 var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
@@ -7,11 +5,10 @@ var _Store_Lcloud_ScrapeResource = '/1.1/classes/ScrapeResource/';
 var Store_Lcloud_Base = 'https://api.leancloud.cn/1.1/';
 var Store_Lcloud_Batch = "https://api.leancloud.cn/1.1/batch";
 var Lcloud = {
-    'x-avoscloud-application-id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
-    'x-avoscloud-application-key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
+    'X-LC-Id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
+    'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet",
+    'X-LC-Session': "qmdj8pdidnmyzp0c7yqil91oc"
 };
-var async = require('asyncawait/async');
-var await = require('asyncawait/await');
 
 var QueryString = {
     order : "-updatedAt"
@@ -64,15 +61,7 @@ function batchDelete(data){
 };
 // deduplicateStorage()
 function deduplicateStorage(){
-    var REQUEST = [];
-    
-        id.forEach(function(v, i){
-            REQUEST.push({
-                'method' : "DELETE",
-                "path" : _Store_Lcloud_ScrapeResource + v
-            })
-        });
-        console.log("REQUEST : ", REQUEST);
+
 
     return ;
     /*
@@ -95,6 +84,7 @@ async function deduplicate(){
     var DATA;
     var Queue = {};
     var LIST_ID = [];
+    var REQUEST = [];
 
     DATA = await getAll();
     DATA.forEach(function(v,i){
@@ -106,12 +96,29 @@ async function deduplicate(){
         }
     });
 
-    return {
-        "queue" : Queue,
-        "id": LIST_ID
-    };
+    LIST_ID.forEach(function(v, i){
+        REQUEST.push({
+            'method' : "DELETE",
+            "path" : _Store_Lcloud_ScrapeResource + v
+        })
+    });
+
+    console.log("REQUEST : ", REQUEST);
+    console.log("REQUEST : ", REQUEST.length);
+    request.post({
+        headers: Lcloud,
+        url: Store_Lcloud_Batch,
+        body: {
+            "requests" : REQUEST
+        },
+        json: true
+    },function(err,res,body){
+        console.log("res statusCode : ", res.statusCode);
+        if (res.statusCode === 200) {
+            console.log("批量去重成功")
+        }
+    });
 };
 
-console.log(" abc : ", deduplicate());
 exports.record = record;
 exports.getAll = getAll;
