@@ -1,3 +1,4 @@
+require('babel-core/register');
 var request = require('request');
 var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/Post';
 var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
@@ -8,6 +9,8 @@ var Lcloud = {
     'x-avoscloud-application-id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
     'x-avoscloud-application-key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
 };
+var async = require('asyncawait/async');
+var await = require('asyncawait/await');
 
 var QueryString = {
     order : "-updatedAt"
@@ -58,19 +61,21 @@ function batchDelete(data){
         }
     });
 };
-
+// deduplicateStorage()
 function deduplicateStorage(){
-    var data = deduplicate();
     var REQUEST = [];
-    console.log(data.id)
-     data.id.forEach(function(v, i){
-        REQUEST.push({
-            'method' : "DELETE",
-            "path" : _Store_Lcloud_ScrapeResource + v
-        })
-     });
+    
+    deduplicate(function(queue, id){
+        id.forEach(function(v, i){
+            REQUEST.push({
+                'method' : "DELETE",
+                "path" : _Store_Lcloud_ScrapeResource + v
+            })
+        });
+        console.log("REQUEST : ", REQUEST);
+    });
 
-    console.log("REQUEST : ", REQUEST);
+    return ;
     request.post({
         headers: Lcloud,
         url: Store_Lcloud_Batch,
@@ -84,38 +89,23 @@ function deduplicateStorage(){
         }
     });
 };
-deduplicate();
-function deduplicate(){
+var deduplicate = async (function (callback){
     var DATA;
-    getAll().then(function(res){
-        console.log("ALL")
-        console.log("RES : ", res)
-        DATA = res
+    var Queue = {};
+    var LIST_ID = [];
 
-    }, function(err){
-        console.log("Error : ", err);
+    DATA = await (getAll());
+    DATA.forEach(function(v,i){
+        if ( !Queue[v.name] ) {
+            Queue[v.name] = 1;
+        } else {
+            ++ Queue[v.name];
+            LIST_ID.push(v.objectId);
+        }
     });
 
-    console.log("DATA : ", DATA);
-
-    // var Queue = {};
-    // var LIST_ID = [];
-    // DATA.forEach(function(v,i){
-    //     if ( !Queue[v.name] ) {
-    //         console.log(" v ", v.name);
-    //         Queue[v.name] = 1;
-    //     } else {
-    //         ++ Queue[v.name];
-    //         LIST_ID.push(v.objectId);
-    //     }
-    // });
-    // // console.log("data : ", DATA);
-    //
-    // return {
-    //     queue: Queue,
-    //     id: LIST_ID
-    // }
-}
-
+    return [Queue, LIST_ID];
+});
+console.log(" abc : ", deduplicate());
 exports.record = record;
 exports.getAll = getAll;
