@@ -65,7 +65,6 @@ function batchDelete(data){
 function deduplicateStorage(){
     var REQUEST = [];
     
-    deduplicate(function(queue, id){
         id.forEach(function(v, i){
             REQUEST.push({
                 'method' : "DELETE",
@@ -73,7 +72,6 @@ function deduplicateStorage(){
             })
         });
         console.log("REQUEST : ", REQUEST);
-    });
 
     return ;
     request.post({
@@ -89,12 +87,12 @@ function deduplicateStorage(){
         }
     });
 };
-var deduplicate = async (function (callback){
+async function deduplicate(){
     var DATA;
     var Queue = {};
     var LIST_ID = [];
 
-    DATA = await (getAll());
+    DATA = await getAll();
     DATA.forEach(function(v,i){
         if ( !Queue[v.name] ) {
             Queue[v.name] = 1;
@@ -104,7 +102,10 @@ var deduplicate = async (function (callback){
         }
     });
 
-    return [Queue, LIST_ID];
+    return {
+        "queue" : Queue,
+        "id": LIST_ID
+    };
 });
 console.log(" abc : ", deduplicate());
 exports.record = record;

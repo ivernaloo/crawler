@@ -8,7 +8,8 @@
   "scripts": {
     "start": "nodemon crawler/app.js --verbose",
     "web": "nodemon app.js --verbose",
-    "deduplicate": "nodemon data/leancloud.js --verbose"
+    "deduplicate": "nodemon data/leancloud.js --verbose",
+    "build": "babel data -d build && cd build"
   },
   "dependencies": {
     "babel-core": "^6.13.2",
