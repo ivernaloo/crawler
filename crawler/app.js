@@ -22,26 +22,16 @@ cloud.getAll().then(
 
 //@todo 做一个遍历抓取
 var COUNT = 1;
-setTimeout(function(){
-    console.log("---", COUNT);
-    COUNT++
-}, 100)
-/*
-
-var ST = setTimeout(function(){
-    console.log("COUNT : ", COUNT);
-    console.log("URL : ", URL[COUNT-1] + "/page/" + COUNT);
-    if (COUNT < 4) {
-        console.log("Request");
-        crawler(URL[COUNT-1] + "/page/" + COUNT);
-        ++COUNT;
+var SI = setInterval(function(){
+    if ( COUNT < 10 ) {
+        crawler(encodeURI(URL[0] + "/page/" + COUNT));
+        crawler(encodeURI(URL[1] + "/page/" + COUNT));
+        crawler(encodeURI(URL[2] + "/page/" + COUNT));
+        COUNT++
     } else {
-        console.log("Clear");
-        clearTimeout(ST);
+        clearInterval(SI);
     }
-
-},500);*/
-
+}, 2000)
 
 function crawler(url){
     // request the target url
