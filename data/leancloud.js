@@ -1,13 +1,11 @@
 var request = require('request');
-var Store_Lcloud = 'https://api.leancloud.cn/1.1/classes/Post';
-var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/ScrapeResource';
-var _Store_Lcloud_ScrapeResource = '/1.1/classes/ScrapeResource/';
+var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/crawler';
+var _Store_Lcloud_ScrapeResource = '/1.1/classes/crawler/';
 var Store_Lcloud_Base = 'https://api.leancloud.cn/1.1/';
 var Store_Lcloud_Batch = "https://api.leancloud.cn/1.1/batch";
 var Lcloud = {
     'X-LC-Id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
-    'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet",
-    'X-LC-Session': "qmdj8pdidnmyzp0c7yqil91oc"
+    'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
 };
 
 var QueryString = {

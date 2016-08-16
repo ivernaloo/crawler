@@ -37,7 +37,7 @@ request(TargetURL, function(error, response, body) {
                 _name = $(v).text();
             _list.push({
                 "method": "POST",
-                "path": "/1.1/classes/ScrapeResource",
+                "path": "/1.1/classes/crawler",
                 "body": {
                     "name": _name,
                     "url" : _url
@@ -47,6 +47,7 @@ request(TargetURL, function(error, response, body) {
         // console.log("A data : ", _list);
         _A_Update_List = _list;
         _Update_list = diffArray(_A_Update_List, _B_Exist_List);
+        console.log(" Update LIST ", _Update_list, " Number : ", _Update_list.length);
 
         cloud.record({
             "requests" : _Update_list
