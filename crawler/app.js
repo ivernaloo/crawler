@@ -20,7 +20,7 @@ cloud.getAll().then(
     }
 );
 
-@todo 做一个遍历抓取
+//@todo 做一个遍历抓取
 var COUNT = 1;
 setTimeout(function(){
     console.log("---", COUNT);
