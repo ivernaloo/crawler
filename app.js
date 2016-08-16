@@ -1,9 +1,12 @@
 var path = require('path');
 var express = require('express');
 var cloud = require('./data/leancloud');
+var cron = require('./data/cron');
 var config = require("./config");
 var app = express();
 var LIST;
+
+cron.job.start(); // start crontribute
 
 cloud.getAll().then(
     function(res){

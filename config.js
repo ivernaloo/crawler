@@ -19,4 +19,4 @@ exports.db = mysql.createConnection({
 exports.port = 3000;
 
 // 定时更新
-// exports.autoUpdate = '* */30 * * *';  // 任务执行规则，参考 cron 语法
+exports.autoUpdate = '* */30 * * *';  // 任务执行规则，参考 cron 语法
