@@ -23,10 +23,8 @@ cloud.getAll().then(
 //@todo 做一个遍历抓取
 var COUNT = 1;
 var SI = setInterval(function(){
-    if ( COUNT < 10 ) {
-        crawler(encodeURI(URL[0] + "/page/" + COUNT));
-        crawler(encodeURI(URL[1] + "/page/" + COUNT));
-        crawler(encodeURI(URL[2] + "/page/" + COUNT));
+    if ( COUNT < 4 ) {
+        crawler(encodeURI(URL[COUNT-1]);
         COUNT++
     } else {
         clearInterval(SI);
