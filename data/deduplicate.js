@@ -1,10 +1,35 @@
-var DATA = require("./sample").RAWDATA;
-function deduplicate(){
+// var DATA = require("./sample/sample2").RAWDATA;
+var request = require('request');
+var cloud = require('./leancloud');
+var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/crawler';
+var _Store_Lcloud_ScrapeResource = '/1.1/classes/crawler/';
+var Store_Lcloud_Base = 'https://api.leancloud.cn/1.1/';
+var Store_Lcloud_Batch = "https://api.leancloud.cn/1.1/batch";
+var Lcloud = {
+    'X-LC-Id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
+    'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
+};
+var LIST = [];
+
+function uniqueList(){
+    cloud.getAll().then(
+        function(res){
+            LIST = res;
+            console.log(" LIST : ", LIST);
+            deduplicate(LIST);
+        },
+        function(error){
+            console.log("Error : getAll " + error);
+        }
+    );
+}
+
+function deduplicate(DATA){
     var Queue = {};
     var LIST_ID = [];
     var REQUEST = [];
 
-    console.log("right");
+    console.log("进去去重状态");
     DATA.forEach(function(v,i){
         if ( !Queue[v.name] ) {
             Queue[v.name] = 1;
@@ -20,7 +45,11 @@ function deduplicate(){
             "path" : _Store_Lcloud_ScrapeResource + v
         })
     });
-    console.log("REQUEST : ", REQUEST.length);
+    console.log("去重数目：REQUEST : ", REQUEST.length);
+    batchDelete(REQUEST)
+}
+
+function batchDelete(REQUEST){
     request.post({
         headers: Lcloud,
         url: Store_Lcloud_Batch,
@@ -32,20 +61,6 @@ function deduplicate(){
         console.log("res statusCode : ", res.statusCode);
         if (res.statusCode === 200) {
             console.log("批量去重成功")
-        }
-    });
-}
-
-
-function batchDelete(data){
-    request.delete({
-        headers: Lcloud,
-        url: Store_Lcloud_Batch,
-        body: data,
-        json: true
-    },function(err,res,body){
-        if (res.statusCode === 200) {
-            console.log("批量删除数据成功")
         }
     });
 };

@@ -9,7 +9,7 @@
     "start": "npm run web & npm run crawler",
     "crawler": "nodemon crawler/app.js --verbose",
     "web": "nodemon app.js --verbose",
-    "deduplicate": "nodemon data/leancloud.js",
+    "deduplicate": "nodemon data/deduplicate.js --verbose",
     "build": "babel -w data -d build",
     "debug": "concurrently --kill-others 'npm run build' 'npm run deduplicate'"
   },
