@@ -24,7 +24,7 @@ cloud.getAll().then(
 var COUNT = 1;
 var SI = setInterval(function(){
     if ( COUNT < 4 ) {
-        crawler(encodeURI(URL[COUNT-1]);
+        crawler(encodeURI(URL[COUNT-1]));
         COUNT++
     } else {
         clearInterval(SI);
