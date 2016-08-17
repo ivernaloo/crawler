@@ -44,6 +44,25 @@ app.get('/', function(req, res, next){
         }
     );
 
+    next();
+});
+
+// 翻页
+app.get('/page/:id', function(req, res, next){
+    res.locals.moment = require('moment');
+
+    cloud.getAll(req.params.id).then(
+        function(response){
+            console.log("ok");
+            res.locals.List = response;
+            res.render('pagelist');
+            next();
+        },
+        function(error){
+            console.log("Error : getAll " + error);
+        }
+    );
+
 });
 
 app.listen(config.port, function(){

@@ -26,13 +26,22 @@ function record(data){
     });
 };
 
-function getAll(fn){
+function getAll(id){
+    if (!id) {
+        // QueryString.skip = 100*id;
+        id = 0;
+
+    }
     return new Promise(function(resolve, reject){
         request({
             headers: Lcloud,
             url: Store_Lcloud_ScrapeResource,
             method: "GET",
-            qs: QueryString
+            qs: {
+                order : "-updatedAt",
+                skip : 100 * id
+            },
+            useQuerystring: true
         },function(err,res,body){
             if (res.statusCode === 200){
                 console.log("数据获取正确");
