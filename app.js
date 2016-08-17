@@ -18,18 +18,32 @@ cloud.getAll().then(
 );
 
 
+
 // 配置 express
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use('/web', express.static(path.join(__dirname, 'web')));
+
 
 // 网站首页
 app.get('/', function(req, res, next){
+
     // articleListByClassId 的第一个参数是文章分类的 ID
     // 第二个参数是返回结果的开始位置
     // 渲染模板
     res.locals.List = LIST;
     res.locals.moment = require('moment');
     res.render('index');
+
+    cloud.getAll().then(
+        function(res){
+            LIST = res
+        },
+        function(error){
+            console.log("Error : getAll " + error);
+        }
+    );
+
 });
 
 app.listen(config.port, function(){
