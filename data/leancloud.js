@@ -53,40 +53,5 @@ function getAll(id){
     });
 };
 
-function batchDelete(data){
-    request.delete({
-        headers: Lcloud,
-        url: Store_Lcloud_Batch,
-        body: data,
-        json: true
-    },function(err,res,body){
-        if (res.statusCode === 200) {
-            console.log("批量删除数据成功")
-        }
-    });
-};
-
-function deduplicateStorage(){
-
-    console.log("******************************");
-    console.log("d : ", DATA);
-    return ;
-    /*
-    request.post({
-        headers: Lcloud,
-        url: Store_Lcloud_Batch,
-        body: {
-            "requests" : REQUEST
-        },
-        json: true
-    },function(err,res,body){
-        if (res.statusCode === 200) {
-            console.log("批量去重成功")
-        }
-    });
-    */
-};
-;
-
 exports.record = record;
 exports.getAll = getAll;
