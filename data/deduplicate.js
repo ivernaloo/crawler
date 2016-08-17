@@ -11,6 +11,13 @@ var Lcloud = {
 };
 var LIST = [];
 
+/*
+* 这种去重没有过滤数据是不完整的
+* 1，是通过翻页，记录完整数据
+* 2，离线下载全量数据
+* 3，更新的时候，每个数据去验证有没有重复的(需要大量的查询CQL)
+*
+* */
 function uniqueList(){
     cloud.getAll().then(
         function(res){
