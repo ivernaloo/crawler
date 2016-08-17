@@ -12,7 +12,6 @@ $(window).scroll(function(){
 
 });
 
-
 function loadList(pageNumber){
     $.get(
             "/page/" + pageNumber,
