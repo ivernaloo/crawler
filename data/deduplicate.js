@@ -38,8 +38,7 @@ function deduplicate(DATA){
     console.log("进去去重状态");
     DATA.forEach(function(v,i){
         if ( !Queue[v.name] ) {
-            Queue[v.name] = 1;
-        } else {
+            Queue[v.name] = 1;        } else {
             ++ Queue[v.name];
             LIST_ID.push(v.objectId);
         }
