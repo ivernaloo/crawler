@@ -1,4 +1,3 @@
-/*
 // MySQL数据库连接配置
 var mysql = require('mysql');
 exports.db = mysql.createConnection({
@@ -8,7 +7,6 @@ exports.db = mysql.createConnection({
   user:            'root',        // 数据库用户
   password:        ''             // 数据库用户对应的密码
 });
-*/
 
 // 访问地址配置
 // exports.sinaBlog = {
@@ -19,4 +17,4 @@ exports.db = mysql.createConnection({
 exports.port = 3000;
 
 // 定时更新
-exports.autoUpdate = '* */1 * * *';  // 任务执行规则，参考 cron 语法
+exports.autoUpdate = '* */12 * * *';  // 任务执行规则，参考 cron 语法

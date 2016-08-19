@@ -1,4 +1,4 @@
-// var DATA = require("./sample/sample2").RAWDATA;
+var DATA = require("./sample/sample").RAWDATA;
 var request = require('request');
 var cloud = require('./leancloud');
 var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/crawler';
@@ -10,7 +10,7 @@ var Lcloud = {
     'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
 };
 var LIST = [];
-
+console.log("DATA : ", DATA);
 /*
 * 这种去重没有过滤数据是不完整的
 * 1，是通过翻页，记录完整数据
@@ -30,7 +30,6 @@ function uniqueList(){
         }
     );
 }
-
 function deduplicate(DATA){
     var Queue = {};
     var LIST_ID = [];
