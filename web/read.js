@@ -11,7 +11,7 @@ var debug = require('debug')('blog:web:read');
 exports.classList = function (callback) {
   debug('获取文章分类列表');
 
-  db.query('SELECT * FROM `class_list` ORDER BY `id` ASC', callback);
+  db.query('SELECT * FROM `class_list` ORDER BY `id` ASC', callback); // sql语句 ASC升序 / DESC降序 - ascend/descend
 };
 
 /**

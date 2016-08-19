@@ -7,6 +7,9 @@
   "engines": {
     "node": ">= 0.10.0"
   },
+  "scripts": {
+    "web" : "nodemon app.js --verbose"
+  },
   "dependencies": {
     "async": "0.2.9",
     "cheerio": "0.12.3",
