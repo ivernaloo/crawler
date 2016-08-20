@@ -12,7 +12,6 @@ exports.db = mysql.createConnection({
 // exports.sinaBlog = {
 //   url: ''  // 网站地址
 // };
-
 // Web服务器端口
 exports.port = 3000;
 
