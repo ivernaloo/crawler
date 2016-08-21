@@ -2,7 +2,7 @@
 var mysql = require('mysql');
 exports.db = mysql.createConnection({
   host:            '114.215.139.174',   // 数据库地址
-  port:            3306,          // 数据库端口
+  port:            '3306',          // 数据库端口
   database:        'crawler',   // 数据库名称
   user:            'root',        // 数据库用户
   password:        'root'             // 数据库用户对应的密码

@@ -53,6 +53,6 @@ CREATE TABLE IF NOT EXISTS `class_list` (
   `id` int(11) NOT NULL,
   `url` varchar(255) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `count` int(11) NOT NULL,
+  `count` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
