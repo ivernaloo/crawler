@@ -10,7 +10,7 @@ var app = express();
 // 配置 express
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/res', express.static(path.join(__dirname, 'res')));
 
 
 // 网站首页
