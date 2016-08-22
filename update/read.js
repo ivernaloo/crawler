@@ -31,17 +31,16 @@ exports.articleList = function (url, callback) {
 
     // 读取博文列表
     var articleList = [];
-    $('.articleList .articleCell').each(function () {
+    $('.container article').each(function () {
       var $me = $(this);
-      var $title = $me.find('.atc_title a');
-      var $time = $me.find('.atc_tm');
+      var $title = $me.find('h2 a');
       var item = {
         title: $title.text().trim(),
-        url:   $title.attr('href'),
-        time:  $time.text().trim()
+        url:   $title.attr('href')
       };
+
       // 从URL中取出文章的ID
-      var s = item.url.match(/blog_([a-zA-Z0-9]+)\.html/);
+      var s = item.url.match(/.*\/(\d+)\.html/);
       if (Array.isArray(s)) {
         item.id = s[1];
         articleList.push(item);
@@ -49,12 +48,11 @@ exports.articleList = function (url, callback) {
     });
 
     // 检查是否有下一页
-    var nextUrl = $('.SG_pgnext a').attr('href');
+    var nextUrl = $('.next-page a').attr('href');
     if (nextUrl) {
       // 读取下一页
       exports.articleList(nextUrl, function (err, articleList2) {
         if (err) return callback(err);
-
         // 合并结果
         callback(null, articleList.concat(articleList2));
       });

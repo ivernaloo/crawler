@@ -21,14 +21,12 @@ function readArticleList (url, callback) {
 
         // 读取博文列表
         var articleList = [];
-        $('.articleList .articleCell').each(function () {
+        $('.content-wrap article').each(function () {
             var $me = $(this);
-            var $title = $me.find('.atc_title a');
-            var $time = $me.find('.atc_tm');
+            var $title = $me.find('header a');
             var item = {
                 title: $title.text().trim(),
-                url:   $title.attr('href'),
-                time:  $time.text().trim()
+                url:   $title.attr('href')
             };
             // 从URL中取出文章的ID
             var s = item.url.match(/blog_([a-zA-Z0-9]+)\.html/);

@@ -33,19 +33,19 @@ async.series([
   // queue 3
   // 依次获取所有文章分类下的文章列表
   function (done) {
-      read.articleList(config.url, function (err, list) {
-        articleList[c.id] = list;
-        next(err);
+    read.articleList(config.res.url, function (err, list) {
+        articleList = list;
+        done(err);
       });
   },
-
-  // queue 4
-  // 保存文章列表
-  function (done) {
-    async.eachSeries(Object.keys(articleList), function (classId, next) {
-      save.articleList(classId, articleList[classId], next);
-    }, done);
-  },
+// queue 4
+    // 保存文章列表
+    function (done) {
+        async.eachSeries(Object.keys(articleList), function (classId, next) {
+            save.articleList(classId, articleList[classId], next);
+        }, done);
+    },
+ /*
 
   // queue 5
   // 保存文章数量
@@ -53,9 +53,9 @@ async.series([
     async.eachSeries(Object.keys(articleList), function (classId, next) {
       save.articleCount(classId, articleList[classId].length, next);
     }, done);
-  },
+  },*/
 
-  // queue 6
+/*  // queue 6
   // 重新整理文章列表，把重复的文章去掉
   function (done) {
     debug('整理文章列表，把重复的文章去掉');
@@ -73,34 +73,11 @@ async.series([
     });
 
     done();
-  },
-
-  // queue 7  
-  // 依次读取文章的详细内容，并保存
-  function (done) {
-    async.eachSeries(articleList, function (item, next) {
-      save.isAericleExists(item.id, function (err, exists) {
-        if (err) return next(err);
-
-        if (exists) {
-          debug('资源已存在：%s', item.url);
-          return next();
-        }
-
-        read.articleDetail(item.url, function (err, ret) {
-          if (err) return next(err);
-          save.articleDetail(item.id, ret.tags, ret.content, function (err) {
-            if (err) return next(err);
-            save.articleTags(item.id, ret.tags, next);
-          });
-        });
-      });
-    }, done);
-  }
+  }*/
 
 ], function (err) {
   if (err) console.error(err.stack);
 
-  console.log('完成');
+  console.log('完成队列任务');
   process.exit(0);
 });

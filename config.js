@@ -9,7 +9,7 @@ exports.db = mysql.createConnection({
 });
 
 // 博客配置
-exports.url = {
+exports.res = {
   url: 'http://www.0daydown.com/category/tutorials/web-design'  // 博客首页地址
 };
 
