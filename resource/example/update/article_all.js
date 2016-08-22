@@ -77,6 +77,7 @@ function readArticleDetail (url, callback) {
 
 
 // 读取分类下的所有文章
+// 入口函数
 readArticleList('http://blog.sina.com.cn/s/articlelist_1776757314_0_1.html', function (err, articleList) {
     if (err) return console.error(err.stack);
 
