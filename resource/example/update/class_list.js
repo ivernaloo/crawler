@@ -37,6 +37,8 @@ function readArticleList (url, callback) {
             }
         });
 
+        console.log("ArticleList : ", articleList);
+
         // 检查是否有下一页
         var nextUrl = $('.next-page a').attr('href');
         if (nextUrl) {

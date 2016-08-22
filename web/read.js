@@ -15,59 +15,6 @@ exports.classList = function (callback) {
 };
 
 /**
- * 检查分类是否存在
- *
- * @param {Number} id
- * @param {Function} callback
- */
-exports.isClassExists = function (id, callback) {
-  debug('检查分类是否存在：%s', id);
-
-  db.query('SELECT * FROM `class_list` WHERE `id`=? LIMIT 1', [id], function (err, ret) {
-    if (err) return next(err);
-
-    callback(null, Array.isArray(ret) && ret.length > 0);
-  });
-};
-
-/**
- * 获取指定分类的信息
- *
- * @param {Number} id
- * @param {Function} callback
- */
-exports.class = function (id, callback) {
-  debug('获取指定分类的信息：%s', id);
-
-  db.query('SELECT * FROM `class_list` WHERE `id`=? LIMIT 1', function (err, list) {
-    if (err) return callback(err);
-    if (!(list.length > 0)) return callback(new Error('该分类不存在'));
-
-    callback(null, list[0]);
-  });
-};
-
-/**
- * 获取指定文章的详细信息
- *
- * @param {String} id
- * @param {Function} callback
- */
-exports.article = function (id, callback) {
-  debug('获取指定文章的详细信息：%s', id);
-
-  var sql = 'SELECT * FROM `article_list` AS `A`' +
-            ' LEFT JOIN `article_detail` AS `B` ON `A`.`id`=`B`.`id`' +
-            ' WHERE `A`.`id`=? LIMIT 1';
-  db.query(sql, [id], function (err, list) {
-    if (err) return callback(err);
-    if (!(list.length > 0)) return callback(new Error('该文章不存在'));
-
-    callback(null, list[0]);
-  });
-};
-
-/**
  * 获取指定分类下的文章列表
  *
  * @param {Number} classId

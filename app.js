@@ -15,6 +15,7 @@ app.use('/res', express.static(path.join(__dirname, 'res')));
 
 // 网站首页
 app.get('/', function(req, res, next){
+
   // articleListByClassId 的第一个参数是文章分类的 ID
   // 第二个参数是返回结果的开始位置
   // 第三个参数是返回结果的数量
@@ -24,18 +25,6 @@ app.get('/', function(req, res, next){
     // 渲染模板
     res.locals.articleList = list;
     res.render('index');
-  });
-});
-
-// 文章页面
-app.get('/article/:id', function (req, res, next) {
-  // 通过 req.params.id 来取得 URL 中 :id 部分的参数
-  read.article(req.params.id, function (err, article) {
-    if (err) return next(err);
-
-    // 渲染模板
-    res.locals.article = article;
-    res.render('article');
   });
 });
 

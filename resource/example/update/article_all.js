@@ -11,7 +11,7 @@ var debug = require('debug')('blog:update');
  * @param {Function} callback
  */
 function readArticleList (url, callback) {
-    debug('读取博文列表：%s', url);
+    debug('读取资源列表：%s', url);
 
     request(url, function (err, res) {
         if (err) return callback(err);

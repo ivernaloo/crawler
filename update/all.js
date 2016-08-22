@@ -9,31 +9,37 @@ var classList;
 var articleList = {};
 
 async.series([
+/*
 
+  // queue 1
   // 获取文章分类列表
   function (done) {
+    // 获取文章分类列表
+    console.log("获取文章分类列表");
     read.classList(config.sinaBlog.url, function (err, list) {
       classList = list;
       done(err);
     });
   },
 
+  // queue 2
   // 保存文章分类
   function (done) {
+    console.log("保存文章分类");
     save.classList(classList, done)
   },
+*/
 
+  // queue 3
   // 依次获取所有文章分类下的文章列表
   function (done) {
-    async.eachSeries(classList, function (c, next) {
-      read.articleList(c.url, function (err, list) {
+      read.articleList(config.url, function (err, list) {
         articleList[c.id] = list;
         next(err);
       });
-
-    }, done);
   },
 
+  // queue 4
   // 保存文章列表
   function (done) {
     async.eachSeries(Object.keys(articleList), function (classId, next) {
@@ -41,6 +47,7 @@ async.series([
     }, done);
   },
 
+  // queue 5
   // 保存文章数量
   function (done) {
     async.eachSeries(Object.keys(articleList), function (classId, next) {
@@ -48,6 +55,7 @@ async.series([
     }, done);
   },
 
+  // queue 6
   // 重新整理文章列表，把重复的文章去掉
   function (done) {
     debug('整理文章列表，把重复的文章去掉');
@@ -67,6 +75,7 @@ async.series([
     done();
   },
 
+  // queue 7  
   // 依次读取文章的详细内容，并保存
   function (done) {
     async.eachSeries(articleList, function (item, next) {
@@ -74,7 +83,7 @@ async.series([
         if (err) return next(err);
 
         if (exists) {
-          debug('文章已存在：%s', item.url);
+          debug('资源已存在：%s', item.url);
           return next();
         }
 

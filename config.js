@@ -9,8 +9,8 @@ exports.db = mysql.createConnection({
 });
 
 // 博客配置
-exports.sinaBlog = {
-  url: 'http://blog.sina.com.cn/u/1776757314'  // 博客首页地址
+exports.url = {
+  url: 'http://www.0daydown.com/category/tutorials/web-design'  // 博客首页地址
 };
 
 // Web服务器端口
