@@ -6,29 +6,32 @@ var debug = require('debug')('blog:update:all');
 
 
 var classList;
-var articleList = {};
+var articleList = [];
 
 async.series([
     // queue 1
     // 依次获取所有文章分类下的文章列表
     function (done) {
         console.log("list");
-        read.articleList(config.res.url, function (err, list) {
-            articleList = list;
-            done(err);
-        });
+        async.eachSeries(Object.keys(config.res), function(index, next){
+            read.articleList(config.res[index], function (err, list) {
+                articleList = articleList.concat(list);
+                next(err);
+            });
+        }, done);
+
     },
-    // queue 4
-    // 保存文章列表
+
+    // queue 2
+    // 保存资源列表
     function (done) {
         async.eachSeries(Object.keys(articleList), function (index, next) {
             save.article(articleList[index], next);
         }, done);
     },
 
-
-    // queue 6
-    // 重新整理文章列表，把重复的文章去掉
+    // queue 3
+    // 重新整理资源列表，把重复的文章去掉
     function (done) {
         debug('整理文章列表，把重复的文章去掉');
 

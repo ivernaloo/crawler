@@ -16,9 +16,11 @@ exports.db = mysql.createConnection({
 });
 
 // 博客配置
-exports.res = {
-  url: 'http://www.0daydown.com/category/tutorials/web-design'  // 博客首页地址
-};
+exports.res = [
+  'http://www.0daydown.com/category/tutorials/web-design',  // 博客首页地址
+  'http://www.0daydown.com/category/tutorials/%E7%A7%BB%E5%8A%A8app%E5%BC%80%E5%8F%91',  // 博客首页地址
+  'http://www.0daydown.com/category/tutorials/other'  // 博客首页地址
+];
 
 // Web服务器端口
 exports.port = 3001;
