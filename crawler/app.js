@@ -20,7 +20,6 @@ cloud.getAll().then(
     }
 );
 
-//@todo 做一个遍历抓取
 var COUNT = 1;
 var SI = setInterval(function(){
     if ( COUNT < 4 ) {
