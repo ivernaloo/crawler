@@ -9,9 +9,9 @@
 --
 
 CREATE TABLE IF NOT EXISTS `article_list` (
-  `id` varchar(20) NOT NULL DEFAULT 0,
+  `id` varchar(20) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `url` text NOT NULL，
+  `url` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
