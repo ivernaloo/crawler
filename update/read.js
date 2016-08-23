@@ -52,7 +52,7 @@ exports.articleList = function (url, callback) {
     // 检查是否有下一页
     var nextUrl = $('.next-page a').attr('href');
 
-    if (nextUrl && COUNT < 1) {
+    if (nextUrl && COUNT < 2) {
       ++COUNT;
       // 读取下一页
       exports.articleList(nextUrl, function (err, articleList2) {

@@ -8,7 +8,7 @@
 <ul class="list-group">
 <% articleList.forEach(function (article) { %>
   <li class="list-group-item">
-    <span class="badge">2016 / 08 / 21</span>
+    <span class="badge"><%= article.time %></span>
     <a href="/article/<%= article.id %>"><%= article.title %></a>
   </li>
 <% }) %>

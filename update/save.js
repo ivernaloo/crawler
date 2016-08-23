@@ -11,6 +11,10 @@ var debug = require('debug')('blog:update:save');
  */
 exports.article = function (listItem, callback) {
   console.log("存储数据", listItem);
+    var _time =  new Date().toLocaleDateString('en-GB', {
+        month : 'numeric',
+        day : 'numeric'
+    }).split(' ').join('/');
 
   // 查询文章是否已存在
   db.query('SELECT * FROM `article_list` WHERE `id`=? LIMIT 1',
@@ -23,9 +27,10 @@ exports.article = function (listItem, callback) {
         }
         if (Array.isArray(data) && data.length == 0) {
           console.log("add");
+
           // 文章不存在，添加
-          db.query('INSERT INTO `article_list`(`id`, `title`, `url`) VALUES (?, ?, ?)',
-              [listItem.id, listItem.title, listItem.url], callback);
+          db.query('INSERT INTO `article_list`(`id`, `title`, `url`, `time`) VALUES (?, ?, ?, ?)',
+              [listItem.id, listItem.title, listItem.url, _time], callback);
         } else {
           callback();
         }

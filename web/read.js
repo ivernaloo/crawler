@@ -22,14 +22,10 @@ exports.classList = function (callback) {
  * @param {Number} limit
  * @param {Function} callback
  */
-exports.articleListByClassId = function (classId, offset, limit, callback) {
-  debug('获取指定分类下的文章列表：%s, %s, %s', classId, offset, limit);
-
-  var sql = 'SELECT * FROM `article_list` AS `A`' +
-            ' LEFT JOIN `article_detail` AS `B` ON `A`.`id`=`B`.`id`' +
-            ' WHERE `A`.`class_id`=?' +
-            ' ORDER BY `created_time` DESC LIMIT ?,?';
-  db.query(sql, [classId, offset, limit], callback);
+exports.articleListByClassId = function (offset, limit, callback) {
+  var sql = 'SELECT * FROM `article_list`' +
+            ' ORDER BY `time` DESC LIMIT ?,?';
+  db.query(sql, [offset, limit], callback);
 };
 
 /**

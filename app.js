@@ -19,11 +19,12 @@ app.get('/', function(req, res, next){
   // articleListByClassId 的第一个参数是文章分类的 ID
   // 第二个参数是返回结果的开始位置
   // 第三个参数是返回结果的数量
-  read.articleListByClassId(0, 0, 20, function (err, list) {
+  read.articleListByClassId(0, 100, function (err, list) {
     if (err) return next(err);
 
     // 渲染模板
     res.locals.articleList = list;
+    console.log("list : ", list)
     res.render('index');
   });
 });
