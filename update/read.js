@@ -2,6 +2,7 @@ var originRequest = require('request');
 var cheerio = require('cheerio');
 var debug = require('debug')('blog:update:read');
 
+var COUNT = 0;
 
 /**
  * 请求指定URL
@@ -46,10 +47,13 @@ exports.articleList = function (url, callback) {
         articleList.push(item);
       }
     });
+    
 
     // 检查是否有下一页
     var nextUrl = $('.next-page a').attr('href');
-    if (nextUrl) {
+
+    if (nextUrl && COUNT < 1) {
+      ++COUNT;
       // 读取下一页
       exports.articleList(nextUrl, function (err, articleList2) {
         if (err) return callback(err);

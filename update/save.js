@@ -2,6 +2,34 @@ var async = require('async');
 var db = require('../config').db;
 var debug = require('debug')('blog:update:save');
 
+/**
+ * 保存文章列表
+ *
+ * @param {Number} index
+ * @param {Array} listItem
+ * @param {Function} callback
+ */
+exports.article = function (listItem, callback) {
+  console.log("存储数据", listItem);
+
+  // 查询文章是否已存在
+  db.query('SELECT * FROM `article_list` WHERE `class_id`=? LIMIT 1',
+      [listItem.id], function (err, data) {
+        if (err) return;
+        console.log("data : ", data)
+        if (Array.isArray(data) && data.length >= 1) {
+          // 文章存在，更新一下
+          db.query('UPDATE `article_list` SET `title`=?, `url`=?, `class_id`=?',
+              [listItem.title, listItem.url, listItem.id]);
+        } else {
+          // 文章不存在，添加
+          db.query('INSERT INTO `article_list`(`id`, `title`, `url`) VALUES (?, ?, ?)',
+              [listItem.id, listItem.title, listItem.url]);
+        }
+      });
+
+
+};
 
 /**
  * 保存文章分类的文章数量

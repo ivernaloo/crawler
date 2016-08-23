@@ -33,18 +33,19 @@ async.series([
   // queue 3
   // 依次获取所有文章分类下的文章列表
   function (done) {
+    console.log("list");
     read.articleList(config.res.url, function (err, list) {
-        articleList = list;
+      articleList = list;
         done(err);
       });
   },
 // queue 4
     // 保存文章列表
     function (done) {
-        async.eachSeries(Object.keys(articleList), function (classId, next) {
-            save.articleList(classId, articleList[classId], next);
+        async.eachSeries(Object.keys(articleList), function (index, next) {
+            save.article(index, articleList[index], next);
         }, done);
-    },
+    }
  /*
 
   // queue 5
