@@ -3,9 +3,10 @@ var config = require('../config');
 var word = require('./wordcount');
 var read = require('./read');
 var debug = require('debug')('blog:update:tag');
+var fs = require('fs');
 
 
-var sentence;
+var sentence = "";
 var articleList = [];
 
 async.series([
@@ -13,7 +14,7 @@ async.series([
     // 依次获取所有文章分类下的文章列表
     function (done) {
         console.log("read list");
-        read.articleListByClassId(0, 100, function (err, list) {
+        read.articleListByClassId(0, 200, function (err, list) {
             if (err) return done(err);
             articleList = list;
             done();
@@ -33,10 +34,14 @@ async.series([
     // queue 3
     // count word
     function (done) {
-        console.log("start word count");
-        console.log("sentence : ", sentence);
-        console.log("list : ", word.count(sentence));
-        done();
+         var rank = [];
+        fs.writeFile("content.txt", new Buffer(sentence), function (err) {
+            console.log(" write file ", err);
+            done();
+            if (err) throw err;
+        });
+        rank = word.count(sentence);
+        console.log(rank.slice(0,60));
     }
 
 ], function (err) {
