@@ -23,14 +23,6 @@ async.series([
     },
 
     // queue 2
-    // 保存资源列表
-    function (done) {
-        async.eachSeries(Object.keys(articleList), function (index, next) {
-            save.article(articleList[index], next);
-        }, done);
-    },
-
-    // queue 3
     // 重新整理资源列表，把重复的文章去掉
     function (done) {
         debug('整理文章列表，把重复的文章去掉');
@@ -46,11 +38,22 @@ async.series([
         });
 
         done();
+    },
+
+    // queue 3
+    // 保存资源列表
+    function (done) {
+        async.eachSeries(Object.keys(articleList), function (index, next) {
+            save.article(articleList[index], next);
+        }, done);
     }
+
+
 
 ], function (err) {
     if (err) console.error(err.stack);
 
     console.log('完成队列任务');
+    console.log('存储数量 : ', articleList.length);
     process.exit(0);
 });
