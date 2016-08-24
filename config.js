@@ -26,4 +26,4 @@ exports.res = [
 exports.port = 3001;
 
 // 定时更新
-exports.autoUpdate = '0 0/30 * * *';  // 任务执行规则，参考 cron 语法
+exports.autoUpdate = '0 */30 * * *';  // 任务执行规则，参考 cron 语法
