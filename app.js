@@ -1,50 +1,70 @@
 var path = require('path');
 var express = require('express');
-var spawn = require('child_process').spawn;
-var cronJob = require('cron').CronJob;
-var read = require('./web/read');
-var config = require('./config');
-
+var cloud = require('./data/leancloud');
+var cron = require('./data/cron');
+var config = require("./config");
 var app = express();
+var LIST;
+
+cron.job.start(); // start crontribute
+
+cloud.getAll().then(
+    function(res){
+        LIST = res
+    },
+    function(error){
+        console.log("Error : getAll " + error);
+    }
+);
+
+
 
 // 配置 express
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.use('/res', express.static(path.join(__dirname, 'res')));
+app.use('/web', express.static(path.join(__dirname, 'web')));
 
 
 // 网站首页
 app.get('/', function(req, res, next){
 
-  // articleListByClassId 的第一个参数是文章分类的 ID
-  // 第二个参数是返回结果的开始位置
-  // 第三个参数是返回结果的数量
-  read.articleListByClassId(0, 100, function (err, list) {
-    if (err) return next(err);
-
+    // articleListByClassId 的第一个参数是文章分类的 ID
+    // 第二个参数是返回结果的开始位置
     // 渲染模板
-    res.locals.articleList = list;
-    console.log("list : ", list)
+    res.locals.List = LIST;
+    res.locals.moment = require('moment');
     res.render('index');
-  });
+
+    cloud.getAll().then(
+        function(res){
+            LIST = res
+        },
+        function(error){
+            console.log("Error : getAll " + error);
+        }
+    );
+
+    next();
 });
 
-app.listen(config.port);
-console.log('服务器已启动');
+// 翻页
+app.get('/page/:id', function(req, res, next){
+    res.locals.moment = require('moment');
 
+    cloud.getAll(req.params.id).then(
+        function(response){
+            console.log("ok");
+            res.locals.List = response;
+            res.render('pagelist');
+            next();
+        },
+        function(error){
+            console.log("Error : getAll " + error);
+        }
+    );
 
-// 定时执行更新任务
-var job = new cronJob(config.autoUpdate, function () {
-  console.log('开始执行定时更新任务');
-  var update = spawn(process.execPath, [path.resolve(__dirname, 'update/all.js')]);
-  update.stdout.pipe(process.stdout);
-  update.stderr.pipe(process.stderr);
-  update.on('close', function (code) {
-    console.log('更新任务结束，代码=%d', code);
-  });
 });
-job.start();
 
-process.on('uncaughtException', function (err) {
-  console.error('uncaughtException: %s', err.stack);
-})
+app.listen(config.port, function(){
+    console.log('服务器已启动 监听3000端口');
+});
