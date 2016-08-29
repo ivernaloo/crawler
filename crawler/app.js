@@ -1,9 +1,9 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var cloud = require('../data/leancloud');
-var URL = require('url-parse');
+// var url = require('url-parse');
 
-var URL = ["http://www.0daydown.com/category/tutorials/other"
+var _URL = ["http://www.0daydown.com/category/tutorials/other"
     , "http://www.0daydown.com/category/tutorials/移动app开发"
     , "http://www.0daydown.com/category/tutorials/web-design"]
 
@@ -20,10 +20,10 @@ cloud.getAll().then(
     }
 );
 
-var COUNT = 1;
+var COUNT = 0;
 var SI = setInterval(function(){
-    if ( COUNT < 4 ) {
-        crawler(encodeURI(URL[COUNT-1]));
+    if ( COUNT < 3 ) {
+        crawler(encodeURI(_URL[COUNT]));
         COUNT++
     } else {
         clearInterval(SI);
@@ -37,7 +37,7 @@ function crawler(url){
             console.log("Error: " + error);
         }
         // Check status code (200 is HTTP OK)
-        console.log("Status code: " + response.statusCode);
+
         if(response.statusCode === 200) {
             // Parse the document body
             var $ = cheerio.load(body);
@@ -56,10 +56,9 @@ function crawler(url){
                     }
                 });
             });
-            // console.log("A data : ", _list);
+
             _A_Update_List = _list;
             _Update_list = diffArray(_A_Update_List, _B_Exist_List);
-            console.log(" Update LIST ", _Update_list, " Number : ", _Update_list.length);
 
             cloud.record({
                 "requests" : _Update_list
