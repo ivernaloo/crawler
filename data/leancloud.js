@@ -13,7 +13,7 @@ var QueryString = {
 };
 
 // record the data
-function record(data){
+function record(data, callback){
     request.post({
         headers: Lcloud,
         url: Store_Lcloud_Batch,
@@ -21,7 +21,8 @@ function record(data){
         json: true
     },function(err,res,body){
         if (res.statusCode === 200) {
-            console.log("记录数据成功")
+            console.log("记录数据成功");
+            callback && callback(); // 执行回调
         }
     });
 };
@@ -43,7 +44,7 @@ function getAll(id){
             useQuerystring: true
         },function(err,res,body){
             if (res.statusCode === 200){
-                console.log("数据获取正确");
+                console.log("getAll - 数据获取正确");
                 return resolve(JSON.parse(res.body).results);
             } else {
                 reject("Error: Some troubles on getAll");
@@ -52,5 +53,58 @@ function getAll(id){
     });
 };
 
+/*
+ * sample data : http://www.0daydown.com/08/606874.html
+ * checkExist("http://www.0daydown.com/08/606874.html");
+ * */
+function checkExist(url, callback){
+    if (!url) return;
+    var _url = 'https://api.leancloud.cn/1.1/classes/crawler?where={"url":"' + url + '"}',
+        _results = [],
+        flag;
+
+    request({
+        headers: Lcloud,
+        url: _url,
+        method: "GET"
+    },function(err,res,body){
+        if (res.statusCode === 200){
+            console.log("checkExist - 检测数据是否重复");
+            _results = JSON.parse(res.body).results;
+
+            // detect the number of items
+            if ( _results.length > 1){
+                _results.splice(1).forEach(function(v, i){
+                    deleteItem(v.objectId, function(){
+                        console.log("删除了没有");
+                        callback(true);
+                    }); // 删除重复的列表
+                });
+
+            } else {
+                callback(false);
+            }
+        } else {
+            throw SQLException("checkExist failure");
+        }
+    });
+
+    return flag;
+};
+
+function deleteItem(id, callback){
+    console.log("开始删除数据" + id);
+    request.del({
+        headers: Lcloud,
+        url: Store_Lcloud_ScrapeResource + "/" + id
+    },function(err,res,body){
+        if (res.statusCode === 200) {
+            console.log("删除数据" + id + "成功");
+            callback && callback();
+        }
+    });
+}
+
 exports.record = record;
 exports.getAll = getAll;
+exports.checkExist = checkExist;
