@@ -30,7 +30,6 @@ function getAll(id){
     if (!id) {
         // QueryString.skip = 100*id;
         id = 0;
-
     }
     return new Promise(function(resolve, reject){
         request({

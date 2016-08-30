@@ -28,7 +28,7 @@ var SI = setInterval(function(){
     } else {
         clearInterval(SI);
     }
-}, 2000)
+}, 2000);
 
 function crawler(url){
     // request the target url
