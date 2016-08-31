@@ -20,7 +20,6 @@ var _URL = ["http://www.0daydown.com/category/tutorials/other"
 async.series([
     function(done){
         async.eachSeries(Object.keys(_URL), function(index, next){
-            console.log("index : ", index)
             crawler(encodeURI(_URL[index]), next);
         }, done);
     }
@@ -29,14 +28,14 @@ async.series([
     if (err) console.error(err.stack);
 
     console.log('完成URL 列表遍历存储!');
-    process.exit(0);
+    // process.exit(0);
 });
 
 
 
 
 
-function crawler(url, callback){
+function crawler(url, callbackup){
     console.log(" 开始 crawler 抓取 " + url);
     // request the target url
     request(url, function(error, response, body) {
@@ -74,11 +73,7 @@ function crawler(url, callback){
                 function(done){
                     var LIST = [];
                     async.eachSeries(Object.keys(_list), function(index, next){
-                        console.log("length : ", _list.length);
-                        // console.log("_list : ", _list);
-                        // console.log("index : ", index);
-                        // console.log("item : ", _list[index]);
-                        // console.log("url : ", _list[index].body.url);
+
                         // todo: 修复检查与否的逻辑
                         cloud.checkExist(_list[index].body.url, function(flag){
                             // true 删除多余的的元素
@@ -89,7 +84,12 @@ function crawler(url, callback){
                             next();
                         })
                     }, function(){
-                        console.log("list : ", LIST);
+                        console.log("LIST : ", LIST);
+                        if ( LIST.length > 0 ){
+                            LIST.forEach(function(i, v){
+                                console.log(i, " - ", v);
+                            })
+                        }
                         done();
                     })
                 },
@@ -99,18 +99,22 @@ function crawler(url, callback){
                 * store the list
                 * */
                 function(done){
-                    cloud.record({
-                        "requests" : _list
-                    }, done);
+
+
+                    // cloud.record({
+                    //     "requests" : _list
+                    // }, done);
+                    // console.log('存储数量 : ', _list.length);
+                    done();
                 }
             ], function(err){
                 if (err) console.error(err.stack);
 
-                console.log('完成单页数据存储');
-                console.log('存储数量 : ', _list.length);
+                console.log('完成队列');
 
-                callback && callback();
-                process.exit(0);
+
+                callbackup && callbackup();
+                // process.exit(0);
             });
         }
     });

@@ -69,14 +69,14 @@ function checkExist(url, callback){
         method: "GET"
     },function(err,res,body){
         if (res.statusCode === 200){
-            console.log("checkExist - 检测数据是否重复");
             _results = JSON.parse(res.body).results;
 
             // detect the number of items
             if ( _results.length > 1){
+                console.log("_results : ", _results);
+                console.log("Length : ", _results.length);
                 _results.splice(1).forEach(function(v, i){
                     deleteItem(v.objectId, function(){
-                        console.log("删除了没有");
                         callback(true);
                     }); // 删除重复的列表
                 });
@@ -93,7 +93,6 @@ function checkExist(url, callback){
 };
 
 function deleteItem(id, callback){
-    console.log("开始删除数据" + id);
     request.del({
         headers: Lcloud,
         url: Store_Lcloud_ScrapeResource + "/" + id
