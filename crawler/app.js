@@ -19,8 +19,8 @@ var _URL = ["http://www.0daydown.com/category/tutorials/other"
 
 async.series([
     function(done){
-        async.eachSeries(Object.keys(_URL), function(index, next){
-            crawler(encodeURI(_URL[index]), next);
+        async.eachSeries(Object.keys(_URL), function(index, urlnext){
+            crawler(encodeURI(_URL[index]), urlnext);
         }, done);
     }
 
@@ -35,8 +35,7 @@ async.series([
 
 
 
-function crawler(url, callbackup){
-    console.log(" 开始 crawler 抓取 " + url);
+function crawler(url, callback){
     // request the target url
     request(url, function(error, response, body) {
         console.log("crawler 抓取 " + url);
@@ -65,58 +64,70 @@ function crawler(url, callbackup){
                 });
             });
 
-            async.series([
-                /*
-                * queue 1
-                * filter the exist item from the list
-                * */
-                function(done){
-                    var LIST = [];
-                    async.eachSeries(Object.keys(_list), function(index, next){
-
-                        // todo: 修复检查与否的逻辑
-                        cloud.checkExist(_list[index].body.url, function(flag){
-                            // true 删除多余的的元素
-                            if ( flag ) {
-                                console.log("重复的游标 :", index);
-                                LIST.push(index);
-                            }
-                            next();
-                        })
-                    }, function(){
-                        console.log("LIST : ", LIST);
-                        if ( LIST.length > 0 ){
-                            LIST.forEach(function(i, v){
-                                console.log(i, " - ", v);
-                            })
-                        }
-                        done();
-                    })
-                },
-
-                /*
-                * queue 2
-                * store the list
-                * */
-                function(done){
-
-
-                    // cloud.record({
-                    //     "requests" : _list
-                    // }, done);
-                    // console.log('存储数量 : ', _list.length);
-                    done();
-                }
-            ], function(err){
-                if (err) console.error(err.stack);
-
-                console.log('完成队列');
-
-
-                callbackup && callbackup();
-                // process.exit(0);
-            });
+            callback(_list);
         }
     });
 }
+
+/*
+* 存储数据
+* */
+function record (){
+    // check record
+
+    // record list
+
+    // 检查存在与否，记录
+    async.series([
+        /*
+         * queue 1
+         * filter the exist item from the list
+         * */
+        function(done){
+            var LIST = [];
+            async.eachSeries(Object.keys(_list), function(index, asyncnext){
+
+                // todo: 修复检查与否的逻辑
+                cloud.checkExist(_list[index].body.url, function(flag){
+                    // true 删除多余的的元素
+                    if ( flag ) {
+                        console.log("重复的游标 :", index);
+                        LIST.push(index);
+                    }
+                    asyncnext();
+                })
+            }, function(){
+                console.log("LIST : ", LIST);
+                if ( LIST.length > 0 ){
+                    LIST.forEach(function(i, v){
+                        console.log(i, " - ", v);
+                    })
+                }
+                done();
+            })
+        },
+
+        /*
+         * queue 2
+         * store the list
+         * */
+        function(done){
+
+
+            // cloud.record({
+            //     "requests" : _list
+            // }, done);
+            // console.log('存储数量 : ', _list.length);
+            done();
+        }
+    ], function(err){
+        if (err) console.error(err.stack);
+
+        console.log('完成队列');
+        callbackup && callbackup();
+        // process.exit(0);
+    });
+}
+
+
 

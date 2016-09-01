@@ -88,8 +88,6 @@ function checkExist(url, callback){
             throw SQLException("checkExist failure");
         }
     });
-
-    return flag;
 };
 
 function deleteItem(id, callback){
