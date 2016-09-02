@@ -14,6 +14,7 @@
     "debug": "concurrently --kill-others 'npm run build' 'npm run deduplicate'"
   },
   "dependencies": {
+    "async": "^2.0.1",
     "babel-core": "^6.13.2",
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.13.2",
