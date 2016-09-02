@@ -1,7 +1,9 @@
 # Crawler
 一个抓取线上学习资源的爬虫网站。
 ## Introduction
+线上的生产环境：http://crawler.aloo.cn
 这是一个抓取线上学习资源的爬虫网站,通过node和cron来实现的。
+
 
 ## Web
 这里用来展示数据,展示了读取来的全量数据。
