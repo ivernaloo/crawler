@@ -9,7 +9,7 @@
   },
   "scripts": {
     "web" : "nodemon app.js --verbose",
-    "tag" : "nodemon web/tag.js --verbose"
+    "tag" : "nodemon tag/tag.js --verbose"
   },
   "dependencies": {
     "async": "0.2.9",
