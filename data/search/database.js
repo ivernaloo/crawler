@@ -1,5 +1,6 @@
 var elasticlunr = require('elasticlunr');
-var data = require('../leancloud');
+    fs = require('fs'),
+    cloud = require('../leancloud');
 
 var index = elasticlunr(function () {
     this.addField('title');
@@ -7,7 +8,7 @@ var index = elasticlunr(function () {
     this.setRef('id');
 });
 
-data.getAllData(function(list){
+cloud.getAllData(function(list){
     console.log("加载完所有数据");
     list.forEach(function(v,i){
         index.addDoc({
@@ -17,5 +18,10 @@ data.getAllData(function(list){
         })
     })
 
+    fs.writeFile('./data/search/database.json', JSON.stringify(index), function (err) {
+        if (err) throw err;
+        console.log('建立完索引');
+    });
 })
+
 

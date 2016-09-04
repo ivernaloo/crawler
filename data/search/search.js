@@ -1,22 +1,7 @@
-var elasticclunr = require('elasticlunr');
-var data = require('../leancloud');
+var elasticlunr = require('elasticlunr');
+var data = require('./database.json');
 
-var index = elasticclunr(function () {
-    this.addField('title');
-    this.addField('url');
-    this.setRef('id');
-});
+index = elasticlunr.Index.load(data)
 
-data.getAllData(function(list){
-    console.log("加载完所有数据");
-    list.forEach(function(v,i){
-        index.addDoc({
-            "id" : v.objectId,
-            "title" : v.name,
-            "url" : v.url
-        })
-    })
-})
-
-
+exports.search = index.search; // 外部的不能使用
 

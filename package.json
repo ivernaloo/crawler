@@ -13,7 +13,8 @@
     "build": "babel -w data -d build",
     "debug": "concurrently --kill-others 'npm run build' 'npm run deduplicate'",
     "tag" : "nodemon data/tag/tag.js --verbose",
-    "search" : "nodemon data/search/index.js --verbose"
+    "database" : "nodemon data/search/database.js --verbose",
+    "search" : "nodemon data/search/search.js --verbose"
   },
   "dependencies": {
     "async": "^2.0.1",
