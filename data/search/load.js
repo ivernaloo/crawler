@@ -2,21 +2,20 @@ var elasticclunr = require('elasticlunr');
 var data = require('../leancloud');
 
 var index = elasticclunr(function () {
-    this.addField('name');
-    this.addField('url')
-    this.setRef('objectId');
-    this.saveDocument(false);
+    this.addField('title');
+    this.addField('url');
+    this.setRef('id');
 });
 
 data.getAllData(function(list){
     console.log("加载完所有数据");
     list.forEach(function(v,i){
         index.addDoc({
-            "objectId" : v.objectId,
-            "name" : v.name,
+            "id" : v.objectId,
+            "title" : v.name,
             "url" : v.url
         })
     })
+
 })
 
-console.log(index.search("photoshop"));
