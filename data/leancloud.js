@@ -3,6 +3,8 @@ var Store_Lcloud_ScrapeResource = 'https://api.leancloud.cn/1.1/classes/crawler'
 var _Store_Lcloud_ScrapeResource = '/1.1/classes/crawler/';
 var Store_Lcloud_Base = 'https://api.leancloud.cn/1.1/';
 var Store_Lcloud_Batch = "https://api.leancloud.cn/1.1/batch";
+var async = require('async');
+
 var Lcloud = {
     'X-LC-Id': "lvwj1mpo0ikouhkwl956kwqbnegzj9y5nh6ybs4qx2vmyc4z",
     'X-LC-Key': "fhkv9jj22qsvmfmhtkj84mxzn5oytuw8fpb9vkywz9docpet"
@@ -27,7 +29,37 @@ function record(data, callback){
     });
 };
 
-function getAll(id){
+function getAllData(done){
+    var LIST = [],
+        COUNT = 0;
+
+    async.whilst(
+        function(){
+            return typeof COUNT == "number"; // COUNT一直增加，到一定值时赋值为"end"跳出。
+        },
+        function (next){
+            getListByPage(COUNT).then(
+                function(res){
+                    if ( res.length && res.length > 0 ) {
+                        LIST = LIST.concat(res);
+                        console.log(COUNT, "组，加载ing");
+                        COUNT ++;
+                        next();
+                    } else {
+                        COUNT = "end";
+                        done(LIST);
+                    }
+                },
+                function(error){
+                    console.log("获取所有数据似乎有些问题！ " + error);
+                }
+            );
+        }
+    )
+}
+
+// 拿到一页的所有数据
+function getListByPage(id){
     if (!id) {
         // QueryString.skip = 100*id;
         id = 0;
@@ -44,10 +76,10 @@ function getAll(id){
             useQuerystring: true
         },function(err,res,body){
             if (res.statusCode === 200){
-                console.log("getAll - 数据获取正确");
+                console.log("getListByPage - 数据获取正确");
                 return resolve(JSON.parse(res.body).results);
             } else {
-                reject("Error: Some troubles on getAll");
+                reject("Error: Some troubles on getListByPage");
             }
         })
     });
@@ -103,5 +135,6 @@ function deleteItem(id, callback){
 }
 
 exports.record = record;
-exports.getAll = getAll;
+exports.getListByPage = getListByPage;
 exports.checkExist = checkExist;
+exports.getAllData = getAllData;

@@ -8,12 +8,12 @@ var LIST;
 
 cron.job.start(); // start crontribute
 
-cloud.getAll().then(
+cloud.getListByPage().then(
     function(res){
         LIST = res
     },
     function(error){
-        console.log("Error : getAll " + error);
+        console.log("Error : getListByPage " + error);
     }
 );
 
@@ -35,12 +35,12 @@ app.get('/', function(req, res, next){
     res.locals.moment = require('moment');
     res.render('index');
 
-    cloud.getAll().then(
+    cloud.getListByPage().then(
         function(res){
             LIST = res
         },
         function(error){
-            console.log("Error : getAll " + error);
+            console.log("Error : getListByPage " + error);
         }
     );
 
@@ -51,7 +51,7 @@ app.get('/', function(req, res, next){
 app.get('/page/:id', function(req, res, next){
     res.locals.moment = require('moment');
 
-    cloud.getAll(req.params.id).then(
+    cloud.getListByPage(req.params.id).then(
         function(response){
             console.log("ok");
             res.locals.List = response;
@@ -59,7 +59,7 @@ app.get('/page/:id', function(req, res, next){
             next();
         },
         function(error){
-            console.log("Error : getAll " + error);
+            console.log("Error : getListByPage " + error);
         }
     );
 

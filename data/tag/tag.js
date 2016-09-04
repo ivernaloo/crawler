@@ -1,7 +1,7 @@
 var async = require('async');
-var config = require('../config');
+var config = require('../../config');
 var word = require('./wordcount');
-var read = require('./../web/read');
+var read = require('../../web/read');
 var debug = require('debug')('blog:update:tag');
 var fs = require('fs');
 
@@ -12,6 +12,7 @@ var articleList = [];
 var LIST = [],
     RANK = {},
     COUNT = 0;
+
 
 async.series([
     // queue 1 遍历数据

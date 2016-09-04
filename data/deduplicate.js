@@ -19,7 +19,7 @@ async.whilst(
         return typeof COUNT == "number"; // COUNT一直增加，到一定值时赋值为"end"跳出。
     },
     function (next){
-        cloud.getAll(COUNT).then(
+        cloud.getListByPage(COUNT).then(
             function(res){
                 if ( res.length && res.length > 0 ) {
                     LIST = LIST.concat(res);
