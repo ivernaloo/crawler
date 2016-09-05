@@ -16,6 +16,5 @@ data.getAllData(function(list){
             "url" : v.url
         })
     })
-
-})
+});
 
