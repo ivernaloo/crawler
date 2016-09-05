@@ -2,6 +2,8 @@ var elasticlunr = require('elasticlunr');
     fs = require('fs'),
     cloud = require('../leancloud');
 
+var data = {};
+
 var index = elasticlunr(function () {
     this.addField('title');
     this.addField('url');
@@ -15,13 +17,24 @@ cloud.getAllData(function(list){
             "id" : v.objectId,
             "title" : v.name,
             "url" : v.url
-        })
-    })
+        });
+
+
+        data[v.objectId] = {
+            "title" : v.name,
+            "url" : v.url
+        };
+    });
 
     fs.writeFile('./data/search/database.json', JSON.stringify(index), function (err) {
         if (err) throw err;
         console.log('建立完索引');
     });
-})
+
+    fs.writeFile('./data/search/data.json', JSON.stringify(data), function (err) {
+        if (err) throw err;
+        console.log('建立完所有数据');
+    });
+});
 
 
