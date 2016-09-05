@@ -1,3 +1,3 @@
-var search = require("./search");
-console.log(search);
-console.log(search("photoshop"));
+var index = require("./search");
+console.log(index.search);
+console.log(index.search("photoshop"));

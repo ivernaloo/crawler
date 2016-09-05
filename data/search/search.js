@@ -3,5 +3,8 @@ var data = require('./database.json');
 
 index = elasticlunr.Index.load(data)
 
-exports.search = index.search; // 外部的不能使用
+function search(item){
+    return index.search(item)
+}
+exports.search = search; // 外部的不能使用
 
