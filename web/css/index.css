@@ -1,7 +1,9 @@
 body {
     overflow-x: hidden;
 }
-
+.list-group {
+    margin-top:50px;
+}
 .list-group-item {
     transition: all .2s ease-in-out;
 }

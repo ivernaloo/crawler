@@ -75,7 +75,7 @@ function getListByPage(id) {
             },
             useQuerystring: true
         }, function (err, res, body) {
-            if (res.statusCode === 200) {
+            if (res && res.statusCode && res.statusCode === 200) {
                 console.log("getListByPage - 数据获取正确");
                 return resolve(JSON.parse(res.body).results);
             } else {
