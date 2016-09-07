@@ -15,16 +15,20 @@
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-left panel-body">
-                <span class="label label-default">react</span>
-                <span class="label label-default">angular</span>
-                <span class="label label-default">node</span>
-                <span class="label label-default">android</span>
-                <span class="label label-default">augmented reality</span>
+                <span class="label label-default" @click="tag">react</span>
+                <span class="label label-default" @click="tag">angular</span>
+                <span class="label label-default" @click="tag">node</span>
+                <span class="label label-default" @click="tag">android</span>
+                <span class="label label-default" @click="tag">reality</span>
+                <span class="label label-default" @click="tag">spark</span>
+                <span class="label label-default" @click="tag">javascript</span>
+                <span class="label label-default" @click="tag">data</span>
+                <span class="label label-default" @click="tag">photoshop</span>
             </div>
             <div class="navbar-right">
                 <div class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" class="form-control"  v-model="searchQuery">
+                        <input type="text" class="form-control" @keyup.enter="search"  v-model="searchQuery">
                     </div>
                     <button type="submit" @click="search" class="btn btn-default">搜索</button>
                 </div>

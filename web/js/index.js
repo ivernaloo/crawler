@@ -86,7 +86,14 @@ var demo = new Vue({
             $.get("search/" + this.searchQuery, function(res){
                 self.lists = res;
             });
-
+            return false;
+        },
+        
+        tag : function(e){
+            var self = this;
+            $.get("search/" + e.target.innerText, function(res){
+                self.lists = res;
+            });
             return false;
         }
     }
