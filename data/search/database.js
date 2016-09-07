@@ -21,8 +21,11 @@ cloud.getAllData(function(list){
 
 
         data[v.objectId] = {
-            "title" : v.name,
-            "url" : v.url
+            "name" : v.name,
+            "url" : v.url,
+            "createdAt" : v.createdAt,
+            "updatedAt" : v.updatedAt,
+            "objectId" : v.objectId
         };
     });
 

@@ -5,41 +5,48 @@
 <title>教程资料</title>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-left panel-body">
-            <span class="label label-default">react</span>
-            <span class="label label-default">angular</span>
-            <span class="label label-default">node</span>
-            <span class="label label-default">android</span>
-            <span class="label label-default">augmented reality</span>
-        </div>
-        <div class="navbar-right">
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" name="query" v-model="searchQuery">
+<div id="app">
+    <div id="app-container">
+         <list-container
+            :data="lists"
+            :filter-key="searchQuery"
+         ></list-container>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-left panel-body">
+                <span class="label label-default">react</span>
+                <span class="label label-default">angular</span>
+                <span class="label label-default">node</span>
+                <span class="label label-default">android</span>
+                <span class="label label-default">augmented reality</span>
+            </div>
+            <div class="navbar-right">
+                <div class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control"  v-model="searchQuery">
+                    </div>
+                    <button type="submit" @click="search" class="btn btn-default">搜索</button>
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
-        </div>
-    </div><!-- /.container-fluid -->
-</nav>
-<ul class="list-group">
-    <% List.forEach(function (item) { %>
-    <li class="list-group-item">
-        <span class="badge"><%= moment(item.createdAt).format('YYYY / MM / DD') %></span>
-        <a href="<%= item.url %>"><%= item.name %></a>
-    </li>
-    <% }) %>
-</ul>
-
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <ul class="list-group" style="display: none;">
+        <% List.forEach(function (item) { %>
+        <li class="list-group-item">
+            <span class="badge"><%= moment(item.createdAt).format('YYYY / MM / DD') %></span>
+            <a href="<%= item.url %>"><%= item.name %></a>
+        </li>
+        <% }) %>
+    </ul>
+</div>
 
 <!-- component template -->
 <script type="text/x-template" id="list-template">
-    <ul class="list-group" v-for="item in data">
-        <li class="list-group-item">
-            <span class="badge"></span>
-            <a href={{item[url]}}>{{item[name]}}</a>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="item in data | filterBy filterKey">
+            <span class="badge">{{item["updatedAt"]}}</span>
+            <a href={{item["url"]}}>{{item["name"]}}</a>
         </li>
     </ul>
 </script>
