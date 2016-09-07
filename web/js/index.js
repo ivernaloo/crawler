@@ -85,5 +85,8 @@ var demo = new Vue({
 });
 
 Vue.filter('highlight', function(words, query){
-    return words.replace(query, '<span class=\'highlight\'>' + query + '</span>')
+    var re = new RegExp(query, "gi");
+    return words.replace(re, function($0,$1){
+        return '<span class=\'highlight\'>' + $0 + '</span>'
+    })
 });
