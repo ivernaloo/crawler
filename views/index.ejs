@@ -50,7 +50,7 @@
     <ul class="list-group">
         <li class="list-group-item" v-for="item in data | filterBy filterKey ">
             <span class="badge">{{item["updatedAt"]}}</span>
-            <a href={{item["url"]}}>{{{ item["name"] | highlight filterKey }}}</a>
+            <a target="_blank" href={{item["url"]}}>{{{ item["name"] | highlight filterKey }}}</a>
         </li>
     </ul>
 </script>

@@ -81,7 +81,6 @@ var demo = new Vue({
             return false;
         }
     }
-
 });
 
 Vue.filter('highlight', function(words, query){
