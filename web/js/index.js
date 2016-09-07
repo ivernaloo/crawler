@@ -82,7 +82,11 @@ var demo = new Vue({
     },
     methods : {
         search: function(){
-            console.log(this.searchQuery);
+            var self = this;
+            $.get("search/" + this.searchQuery, function(res){
+                self.lists = res;
+            });
+
             return false;
         }
     }
