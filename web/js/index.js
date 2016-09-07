@@ -47,22 +47,6 @@ Vue.component('list-container', {
         data: Array,
         columns: Array,
         filterKey: String
-    },
-    data: function () {
-        // var sortOrders = {};
-        // this.columns.forEach(function (key) {
-        //     sortOrders[key] = 1
-        // });
-        // return {
-        //     sortKey: '',
-        //     sortOrders: sortOrders
-        // }
-    },
-    methods: {
-        // sortBy: function (key) {
-        //     this.sortKey = key
-        //     this.sortOrders[key] = this.sortOrders[key] * -1
-        // }
     }
 })
 
@@ -98,4 +82,8 @@ var demo = new Vue({
         }
     }
 
+});
+
+Vue.filter('highlight', function(words, query){
+    return words.replace(query, '<span class=\'highlight\'>' + query + '</span>')
 });

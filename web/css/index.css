@@ -21,3 +21,7 @@ body {
     color: #fff;
     text-decoration: none;
 }
+.highlight {
+    font-weight: bold;
+    background: #fc0;
+}

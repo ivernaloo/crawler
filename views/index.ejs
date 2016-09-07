@@ -48,9 +48,9 @@
 <!-- component template -->
 <script type="text/x-template" id="list-template">
     <ul class="list-group">
-        <li class="list-group-item" v-for="item in data | filterBy filterKey">
+        <li class="list-group-item" v-for="item in data | filterBy filterKey ">
             <span class="badge">{{item["updatedAt"]}}</span>
-            <a href={{item["url"]}}>{{item["name"]}}</a>
+            <a href={{item["url"]}}>{{{ item["name"] | highlight filterKey }}}</a>
         </li>
     </ul>
 </script>
