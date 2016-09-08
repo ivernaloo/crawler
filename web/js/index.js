@@ -1,16 +1,7 @@
 var ITEMS = $(".list-group-item");
 var COUNT = 1;
 
-$(window).scroll(function(){
 
-    if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-        // run our call for pagination
-        console.log("count : ", COUNT);
-        loadList(COUNT);
-        COUNT++;
-    }
-
-});
 
 function loadList(pageNumber, type, cal){
     var url = "",
@@ -48,7 +39,7 @@ Vue.component('list-container', {
         columns: Array,
         filterKey: String
     }
-})
+});
 
 // bootstrap the demo
 var demo = new Vue({
@@ -59,6 +50,20 @@ var demo = new Vue({
             self.lists = data;
         });
 
+    },
+    ready : function(){
+        var self = this;
+        $(window).scroll(function(){
+
+            if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+                // run our call for pagination
+                loadList(COUNT, "json", function(data){
+                    self.lists = self.lists.concat(data);
+                });
+                COUNT++;
+            }
+
+        });
     },
     data: {
         searchQuery: '',
@@ -77,6 +82,7 @@ var demo = new Vue({
             var self = this;
             $.get("search/" + e.target.innerText, function(res){
                 self.lists = res;
+                self.searchQuery = e.target.innerText;
             });
             return false;
         }
