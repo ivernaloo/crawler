@@ -9,8 +9,15 @@
 这里用来展示数据,展示了读取来的全量数据。
 
 ## Requirement
+### 2.2 server render template
+1. 16/9/8 express输出静态文件
+1. 16/9/8 vue server render
+1. 16/9/8 abolish ejs template
+
+
 ### 2.1 列表热词检索
-1. 16/9/7 搜索大小写通用匹配
+1. <del>16/9/8 时间格式</del>
+1. <del>16/9/7 搜索大小写通用匹配</del>
 1. <del>16/9/4 通用Tag搜索API</del>
 1. <del>16/9/2 Tag倒排索引</del>
 1. <del>16/9/2 Tag搜索</del>

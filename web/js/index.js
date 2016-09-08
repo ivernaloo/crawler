@@ -38,6 +38,11 @@ Vue.component('list-container', {
         data: Array,
         columns: Array,
         filterKey: String
+    },
+    filters: {
+        moment: function(date){
+            return moment(date).format('YYYY / MM / DD')
+        }
     }
 });
 

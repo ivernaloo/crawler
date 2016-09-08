@@ -49,7 +49,7 @@
 <script type="text/x-template" id="list-template">
     <ul class="list-group">
         <li class="list-group-item" v-for="item in data | filterBy filterKey ">
-            <span class="badge">{{item["updatedAt"]}}</span>
+            <span class="badge">{{item["updatedAt"] | moment }}</span>
             <a target="_blank" href={{item["url"]}}>{{{ item["name"] | highlight filterKey }}}</a>
         </li>
     </ul>
@@ -59,5 +59,6 @@
 
 <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script src="/web/js/lib/vue.min.js"></script>
+<script src="/web/js/lib/moment.min.js"></script>
 <script src="../web/js/index.js"></script>
 </body>
