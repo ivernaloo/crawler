@@ -9,11 +9,14 @@
 这里用来展示数据,展示了读取来的全量数据。
 
 ## Requirement
+### 2.3 crontab generate search index
+1. 16/9/8 生成了index索引
+1. 16/9/8 生成原文件json data集合
+
 ### 2.2 server render template
 1. 16/9/8 express输出静态文件
 1. 16/9/8 vue server render
 1. 16/9/8 abolish ejs template
-
 
 ### 2.1 列表热词检索
 1. <del>16/9/8 时间格式</del>
